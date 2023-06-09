@@ -1,2 +1,2 @@
 -- This file should undo anything in `up.sql`
-DROP TABLE ecommerce.tests
+DROP TABLE ecommerce.tests 
