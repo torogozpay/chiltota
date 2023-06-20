@@ -1,5 +1,6 @@
 // api/src/test_handler.rs
 
+use shared::generate_numbers::{gen_api_id, gen_api_secret};
 use shared::response_models::{Response, ResponseBody};
 use application::business::{create, read, delete}; 
 use domain::models::{Business, NewBusiness};
@@ -29,7 +30,13 @@ pub fn list_business_handler(model_id: i32) -> Result<String, NotFound<String>> 
 
 #[post("/newBusiness", format = "application/json", data = "<business>")]
 pub fn create_business_handler(business: Json<NewBusiness>) -> Created<String> {
-    create::create_business(business)
+    let id = gen_api_id();
+    let secret = gen_api_secret();
+    let mut mybusiness = business;
+    mybusiness.api_id = id;
+    mybusiness.api_secret = secret;
+
+    create::create_business(mybusiness)
 }
 
 #[get("/deleteBusiness/<model_id>")]

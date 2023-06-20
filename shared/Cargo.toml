@@ -10,3 +10,6 @@ domain = { path = "../domain" }
 
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 serde = { version = "1.0.147", features = ["derive"] }
+
+rand = "0.8.5"
+serial-key = "1.0"
