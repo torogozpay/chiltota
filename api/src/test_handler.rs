@@ -32,7 +32,7 @@ pub fn create_test_handler(test: Json<NewTest>) -> Created<String> {
     create::create_test(test)
 }
 
-#[get("/delete/<test_id>")]
+#[get("/deleteTest/<test_id>")]
 pub fn delete_test_handler(test_id: i32) -> Result<String, NotFound<String>> {
     let tests = delete::delete_test(test_id)?;
     let response = Response { body: ResponseBody::Tests(tests) };

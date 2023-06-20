@@ -1,13 +1,15 @@
 // shared/src/response_models.rs
 
-use domain::models::Test;
+use domain::models::*;
 use rocket::serde::Serialize;
 
 #[derive(Serialize)]
 pub enum ResponseBody {
     Message(String),
     Test(Test),
-    Tests(Vec<Test>)
+    Tests(Vec<Test>),
+    Business(Business),
+    Businesses(Vec<Business>)
 }
 
 #[derive(Serialize)]
