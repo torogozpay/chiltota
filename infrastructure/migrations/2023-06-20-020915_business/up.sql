@@ -1,12 +1,4 @@
 -- Your SQL goes here
-CREATE TABLE tests
-(
-    id      serial primary key,
-    codigo  varchar not null,
-    nombre  varchar not null
-);
-
-
 CREATE TABLE businesses (
  id_business serial primary key,
  app_name varchar(100) not null,
@@ -14,6 +6,7 @@ CREATE TABLE businesses (
  app_url varchar(100) not null,
  api_id varchar(32) not null,
  api_secret varchar(32) not null,
+ id_workspace uuid not null,
  notify_customer boolean not null default false,
  notify_email boolean not null default false, 
  set_emails varchar(100),
@@ -57,3 +50,33 @@ CREATE TABLE invoices_det (
  quantity numeric(18,2) not null default 0,
  amount numeric(18,2) not null default 0
 );
+
+/*
+alter table invoices
+   add constraint fk_invoices_businesses foreign key (id_business)
+      references businesses (id_business)
+      on delete restrict on update restrict;
+	  
+alter table invoices_det
+   add constraint fk_invoices_det_invoices foreign key (id_invoice)
+      references invoices (id_invoice)
+      on delete restrict on update restrict;	  
+
+
+
+create unique index idx_cn_businesses on businesses (
+ api_id
+);
+
+create unique index idx_cn_invoices on invoices (
+ id_business,
+ payment_address,
+ invoice_date,	
+ amount	
+);
+
+create unique index idx_cn_invoices_det on invoices_det (
+ id_invoice,
+ product_code	
+);
+*/

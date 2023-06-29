@@ -6,8 +6,6 @@ use rocket::serde::Serialize;
 #[derive(Serialize)]
 pub enum ResponseBody {
     Message(String),
-    Test(Test),
-    Tests(Vec<Test>),
     Business(Business),
     Businesses(Vec<Business>)
 }

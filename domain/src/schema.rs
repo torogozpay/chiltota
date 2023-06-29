@@ -13,6 +13,7 @@ diesel::table! {
         api_id -> Varchar,
         #[max_length = 32]
         api_secret -> Varchar,
+        id_workspace -> Uuid,
         notify_customer -> Bool,
         notify_email -> Bool,
         #[max_length = 100]
@@ -76,26 +77,8 @@ diesel::table! {
     }
 }
 
-diesel::table! {
-    tests (id) {
-        id -> Int4,
-        codigo -> Varchar,
-        nombre -> Varchar,
-    }
-}
-
-diesel::table! {
-    tests11 (id) {
-        id -> Int4,
-        codigo -> Varchar,
-        nombre -> Varchar,
-    }
-}
-
 diesel::allow_tables_to_appear_in_same_query!(
     businesses,
     invoices,
     invoices_det,
-    tests,
-    tests11,
 );

@@ -24,7 +24,7 @@ pub fn gen_api_id() -> String {
 
 pub fn gen_api_secret () -> String {
     let mut rng = rand::thread_rng();
-    let id = rng.gen::<i32>();
+    let id = rng.gen::<u32>();
     println!("Api Secret: {}", id);
 
     return id.to_string();
