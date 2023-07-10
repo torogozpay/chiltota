@@ -7,8 +7,10 @@ use diesel::prelude::*;
 use rocket::response::status::Created;
 use rocket::serde::json::Json;
 
-pub fn create_business(business: Json<NewBusiness>) -> Created<String> {
+pub fn create_business(mut business: Json<NewBusiness>) -> Created<String> {
     use domain::schema::businesses;
+
+    business.id_business = None;
 
     let business = business.into_inner();
 

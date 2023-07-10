@@ -3,7 +3,7 @@
 use shared::generate_numbers::{gen_api_id, gen_api_secret};
 use shared::response_models::{Response, ResponseBody};
 use application::business::{create, update, read, delete}; 
-use domain::models::{Business, NewBusiness, UpdBusiness};
+use domain::models::{Business, NewBusiness};
 use rocket::{get, post, put};
 use rocket::response::status::{NotFound, Created};
 use rocket::serde::json::Json;
@@ -40,7 +40,7 @@ pub fn create_business_handler(business: Json<NewBusiness>) -> Created<String> {
 }
 
 #[put("/updBusiness", format = "application/json", data = "<business>")]
-pub fn update_business_handler(business: Json<UpdBusiness>) -> Result<String, NotFound<String>> {
+pub fn update_business_handler(business: Json<NewBusiness>) -> Result<String, NotFound<String>> {
     let businesses = update::update_business(business)?;
     let response = Response { body: ResponseBody::Business(businesses) };
 

@@ -34,10 +34,11 @@
      pub ask_address: bool,
  }
  
- #[derive(Insertable, Deserialize)]
+ #[derive(Insertable,AsChangeset,Deserialize)]
  #[serde(crate = "rocket::serde")]
  #[diesel(table_name = businesses)]
  pub struct NewBusiness <'a> {
+     pub id_business: Option<i32>,
      pub app_name: &'a str,
      pub app_logo: &'a str,
      pub app_url: &'a str,
@@ -58,51 +59,26 @@
      pub ask_mobile: bool,
      pub ask_email: bool,
      pub ask_address: bool,
+}
+
+
+mod my_uuid {
+    use uuid::Uuid;
+    use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
+    use std::str::FromStr;
+
+    pub fn serialize<S>(val: &Uuid, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        val.to_string().serialize(serializer)
     }
 
-    #[derive(AsChangeset, Deserialize)]
-    #[serde(crate = "rocket::serde")]
-    #[diesel(table_name = businesses)]
-    pub struct UpdBusiness <'a> {
-        pub id_business: i32,
-        pub app_name: &'a str,
-        pub app_logo: &'a str,
-        pub app_url: &'a str,
-        pub api_id: &'a str,
-        pub api_secret: &'a str,
-        #[serde(with = "my_uuid")]
-        pub id_workspace: Uuid,
-        pub notify_customer: bool,
-        pub notify_email: bool,
-        pub set_emails: Option<&'a str>,
-        pub notify_webhook: bool,
-        pub set_webhook: Option<&'a str>,
-        pub link_url_pay: Option<&'a str>,
-        pub link_timeout: i32,
-        pub link_amount: bool,
-        pub link_count: bool,
-        pub ask_name: bool,
-        pub ask_mobile: bool,
-        pub ask_email: bool,
-        pub ask_address: bool,
-       }
-    mod my_uuid {
-        use uuid::Uuid;
-        use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
-        use std::str::FromStr;
-    
-        pub fn serialize<S>(val: &Uuid, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
-        {
-            val.to_string().serialize(serializer)
-        }
-    
-        pub fn deserialize<'de, D>(deserializer: D) -> Result<Uuid, D::Error>
-        where
-            D: Deserializer<'de>,
-        {
-            let val: &str = Deserialize::deserialize(deserializer)?;
-            Uuid::from_str(val).map_err(D::Error::custom)
-        }
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Uuid, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let val: &str = Deserialize::deserialize(deserializer)?;
+        Uuid::from_str(val).map_err(D::Error::custom)
     }
+}
